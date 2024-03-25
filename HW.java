@@ -14,7 +14,7 @@ public class HW {
         while (true) {
             try {
                 processUserData();
-                break; // Если данные обработаны успешно, выходим из цикла
+                break;
             } catch (NumberFormatException e) {
                 System.out.println("Ошибка: Неверный формат числа. " + e.getMessage());
                 System.out.println("Пожалуйста, введите данные заново.");
