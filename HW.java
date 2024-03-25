@@ -26,7 +26,7 @@ public class HW {
         }
     }
     private static void processUserData() throws IllegalArgumentException, ParseException, NumberFormatException {
-        SimpleDateFormat format = new SimpleDateFormat("dd.mm.yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         format.setLenient(false);
         String surname = "";
         String firstName = "";
@@ -88,41 +88,46 @@ public class HW {
             }
         }
         if (gender != 'm' && gender != 'f') {
-            throw new IllegalArgumentException("Неправильный формат пола");
+            throw new IllegalArgumentException("Неправильный формат пола. Пол должен соответствовать формату 'm' " +
+                    "или 'f'!");
         }
 
         if (surname.isEmpty() || firstName.isEmpty() || middleName.isEmpty() || dateOfBirth == null ||
                 phoneNumber == 0 || gender == ' ') {
-            throw new IllegalArgumentException("Не все данные были введены");
+            throw new IllegalArgumentException("Не все данные были введены или данные оставлены 'по умолченаию'!");
         }
 
         if (!surname.matches("[A-Za-zА-Яа-я]+")) {
-            throw new IllegalArgumentException("Неправильный формат фамилии");
+            throw new IllegalArgumentException("Неправильный формат фамилии. Фамилия должна содержать латинские " +
+                    "буквы или кириллицу!");
         }
         if (!firstName.matches("[A-Za-zА-Яа-я]+")) {
-            throw new IllegalArgumentException("Неправильный формат имени");
+            throw new IllegalArgumentException("Неправильный формат имени. Имя должно содержать латинские буквы" +
+                    "или кириллицу!");
         }
         if (!middleName.matches("[A-Za-zА-Яа-я]+")) {
-            throw new IllegalArgumentException("Неправильный формат отчества");
+            throw new IllegalArgumentException("Неправильный формат отчества. Отчество должно содержать латинские " +
+                    "буквы или кириллицу!");
         }
 
         String formattedDate = (dateOfBirth != null) ? format.format(dateOfBirth) : "N/A";
 
-        String output = "<" + surname + "> <" + firstName + "> <" + middleName + "> <" + format.format(dateOfBirth) + "> <" + phoneNumber + "> <" + gender + ">";
+        String output = "<" + surname + "> <" + firstName + "> <" + middleName + "> <" + format.format(dateOfBirth)
+                + "> <" + phoneNumber + "> <" + gender + ">";
 
         try {
             File file = new File("peopleData/" + surname + ".txt");
             if (file.createNewFile()) {
-                System.out.println("Файл создан");
+                System.out.println("Файл успешно создан!");
             } else {
-                System.out.println("Файл уже существует");
+                System.out.println("Файл уже существует и будет изменён (данные будут добавлены в новой строке)!");
             }
         } catch (IOException e) {
-            System.out.println("Ошибка при создании файла");
-            e.printStackTrace(); // Выводим стектрейс ошибки
+            System.out.println("Ошибка при создании файла! Проверьте стэктрейс и исправьте возникшие проблемы!");
+            e.printStackTrace();
         }
 
-        FileWriter writer = null; // Объявляем FileWriter здесь, чтобы быть уверенными в его закрытии
+        FileWriter writer = null;
 
         try {
             writer = new FileWriter("peopleData/" + surname + ".txt", true);
@@ -134,7 +139,7 @@ public class HW {
         } finally {
             if (writer != null) {
                 try {
-                    writer.close(); // Закрываем FileWriter в блоке finally
+                    writer.close();
                 } catch (IOException ex) {
                     System.out.println(ex.getMessage());
                 }
