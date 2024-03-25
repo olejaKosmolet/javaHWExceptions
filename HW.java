@@ -1,5 +1,4 @@
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
@@ -120,29 +119,25 @@ public class HW {
             }
         } catch (IOException e) {
             System.out.println("Ошибка при создании файла");
-            e.printStackTrace();
+            e.printStackTrace(); // Выводим стектрейс ошибки
         }
 
-        try(FileWriter writer = new FileWriter("peopleData/" + surname + ".txt", true))
-        {
-                writer.write(output);
+        FileWriter writer = null; // Объявляем FileWriter здесь, чтобы быть уверенными в его закрытии
 
+        try {
+            writer = new FileWriter("peopleData/" + surname + ".txt", true);
+            writer.write(output);
             writer.write("\n");
             writer.flush();
-        }
-        catch(IOException ex){
-
+        } catch (IOException ex) {
             System.out.println(ex.getMessage());
-        }
-        finally {
-            FileInputStream fin = null;
-            try {
-
-                if (fin != null)
-                    fin.close();
-            } catch (IOException ex) {
-
-                System.out.println(ex.getMessage());
+        } finally {
+            if (writer != null) {
+                try {
+                    writer.close(); // Закрываем FileWriter в блоке finally
+                } catch (IOException ex) {
+                    System.out.println(ex.getMessage());
+                }
             }
         }
     }
