@@ -109,7 +109,7 @@ public class HW {
 
         String formattedDate = (dateOfBirth != null) ? format.format(dateOfBirth) : "N/A";
 
-        String output = surname + " " + firstName + " " + middleName + " " + format.format(dateOfBirth) + " " + phoneNumber + " " + gender;
+        String output = "<" + surname + "> <" + firstName + "> <" + middleName + "> <" + format.format(dateOfBirth) + "> <" + phoneNumber + "> <" + gender + ">";
 
         try {
             File file = new File("peopleData/" + surname + ".txt");
